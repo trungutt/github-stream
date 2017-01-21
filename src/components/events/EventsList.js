@@ -9,6 +9,7 @@ const EventsList = ({events}) => {
                     <th>Id</th>
                     <th>Type</th>
                     <th>Actor</th>
+                    <th>Created at</th>
                 </tr>
             </thead>
             <tbody>

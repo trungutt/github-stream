@@ -1,8 +1,10 @@
 import {combineReducers} from 'redux';
-import events from './eventsReducers';
+import data from './eventsReducers';
+import pendingAjaxRequest from './ajaxStatusReducer';
 
 const rootReducer = combineReducers({
-    events
+    data,
+    pendingAjaxRequest
 });
 
 export default rootReducer;

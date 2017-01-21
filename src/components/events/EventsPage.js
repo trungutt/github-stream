@@ -3,54 +3,37 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as eventsActions from '../../actions/eventsActions';
 import EventsList from './EventsList';
+import Loading from '../common/Loading';
+import Filter from '../filter/Filter';
 
 class EventsPage extends React.Component {
     constructor(props, context) {
         super(props, context);
-
-        this.state = {
-            event: {
-                title: ""
-            }
-        };
-
-        this.onChange = this.onChange.bind(this);
-    }
-
-    onChange(ev) {
-        const event = this.state.event;
-        console.log('event = ', JSON.stringify(event, null, 5));
-        console.log('ev.target.value = ', JSON.stringify(ev.target.value, null, 5));
-        console.log('this.props.actions = ', JSON.stringify(this.props.actions, null, 5));
-        event.title = ev.target.value;
-
     }
 
     render() {
-        const {events} = this.props;
+        const {filtered, loading} = this.props;
 
         return (
             <div>
-                <h1>GitHub Events</h1>
-                <input
-                    type="text"
-                    onChange={this.onChange}
-                    value={this.state.event.title}
-                    />
-                <EventsList events={events} />
+                {loading && <Loading interval={100} dots={20} />}
+                <Filter />
+                <EventsList events={filtered} />
             </div>
         );
     }
 }
 
 EventsPage.propTypes = {
-    events: PropTypes.array.isRequired,
+    filtered: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired,
     actions: PropTypes.object.isRequired
 };
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        events: state.events
+        filtered: state.data.filtered,
+        loading: state.pendingAjaxRequest > 0
     };
 }
 
